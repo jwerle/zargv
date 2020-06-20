@@ -10,6 +10,7 @@ In your project's `zz.toml` file, add the following:
 ```toml
 [repos]
 zargv = "git://github.com/jwerle/zargv.git"
+list = "git://github.com/jwerle/zz-list.git" ## peer dep
 
 [dependencies]
 zargv = "*"
