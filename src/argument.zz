@@ -69,11 +69,11 @@ export const int UNKNOWN = Type::Unknown;
  * to map an argument value to.
  */
 export struct Argument {
+  void ** mut ptr;
   Type type;
   bool isarray;
   usize mut offset;
   usize size;
-  void ** mut ptr;
   char *name;
   char *alias;
   char *description;
