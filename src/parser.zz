@@ -28,7 +28,6 @@ export struct Parser+ {
  */
 export fn make(Parser+L new mut *self)
   model safe(self)
-  model pool::continuous(self->pool)
 {
   pool::make(&self->pool, sizeof(Argument));
   list::make(&self->args);
@@ -46,10 +45,9 @@ fn create_argument(
 ) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
+  static_attest(pool::continuous(self->pool));
   let arg = (Argument mut *) self->pool.alloc();
   if 0 != arg {
     static_attest(safe(arg));
@@ -70,9 +68,7 @@ fn create_argument(
 export fn int(Parser+L mut *self, int * mut ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.type = argument::Type::Int;
@@ -90,9 +86,7 @@ export fn int(Parser+L mut *self, int * mut ptr, ArgumentOptions options) -> Arg
 export fn uint(Parser+L mut *self, u32 * mut ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.type = argument::Type::UInt;
@@ -110,9 +104,7 @@ export fn uint(Parser+L mut *self, u32 * mut ptr, ArgumentOptions options) -> Ar
 export fn float(Parser+L mut *self, float_t * mut ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.type = argument::Type::Float;
@@ -130,9 +122,7 @@ export fn float(Parser+L mut *self, float_t * mut ptr, ArgumentOptions options) 
 export fn double(Parser+L mut *self, double_t * mut ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.type = argument::Type::Double;
@@ -150,9 +140,7 @@ export fn double(Parser+L mut *self, double_t * mut ptr, ArgumentOptions options
 export fn bool(Parser+L mut *self, bool * mut ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.type = argument::Type::Bool;
@@ -170,9 +158,7 @@ export fn bool(Parser+L mut *self, bool * mut ptr, ArgumentOptions options) -> A
 export fn string(Parser+L mut *self, char ** mut ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.type = argument::Type::String;
@@ -192,9 +178,7 @@ export fn string(Parser+L mut *self, char ** mut ptr, ArgumentOptions options) -
 export fn array(Parser+L mut *self, void mut *ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
 
@@ -221,9 +205,7 @@ export fn array(Parser+L mut *self, void mut *ptr, ArgumentOptions options) -> A
 export fn rest(Parser+L mut *self, void mut *ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.name = "";
@@ -244,9 +226,7 @@ export fn rest(Parser+L mut *self, void mut *ptr, ArgumentOptions options) -> Ar
 export fn unknown(Parser+L mut *self, void mut *ptr, ArgumentOptions options) -> Argument *
   model safe(self)
   model safe(return)
-  model pool::continuous(self->pool)
   where safe(ptr)
-  where pool::continuous(self->pool)
 {
   let mut opts = options;
   opts.name = "";
@@ -263,7 +243,6 @@ export fn unknown(Parser+L mut *self, void mut *ptr, ArgumentOptions options) ->
  *   args.parse(argv, argc);
  */
 export fn parse(Parser+L mut *self, char **argv, int argc)
-  where pool::continuous(self->pool)
   where (usize) argc <= len(argv)
 {
   new+32 mut unknown_args = list::make();
